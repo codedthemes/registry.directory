@@ -384,8 +384,8 @@
     },
     {
       "name": "Dominik UI",
-      "description": "An open-source shadcn/ui registry of animated React components: expandable icon tabs with a sliding active pill and a multi-variant braille loading indicator.",
-      "url": "https://dominikkoch.dev/registry",
+      "description": "Opinionated components and tools for building modern AI interfaces.",
+      "url": "https://dominikkoch.dev/ui",
       "registry_url": "https://dominikkoch.dev/r/registry.json",
       "github_url": "https://github.com/mezotv/portfolio",
       "github_profile": "https://github.com/mezotv.png"
