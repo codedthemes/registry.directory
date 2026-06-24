@@ -56,6 +56,14 @@
       "github_profile": "https://github.com/magicuidesign.png"
     },
     {
+      "name": "Shuip",
+      "description": "Ready-to-use React components, React-hook-form, Tanstack-form fields and blocks (kanban, datatables) to help you ship your projects faster by eliminating the repetitive work of building user interfaces.",
+      "url": "https://shuip.plvo.dev/docs",
+      "registry_url": "https://shuip.plvo.dev/r/registry.json",
+      "github_url": "https://github.com/plvo/shuip",
+      "github_profile": "https://github.com/plvo.png"
+    },
+    {
       "name": "Shadcnship",
       "description": "Production-ready shadcn registry for SaaS apps. UI Blocks and Connected Blocks with Supabase auth, Stripe payments, and Resend emails already integrated.",
       "url": "https://shadcnship.com/",
