@@ -397,6 +397,14 @@
       "registry_url": "https://agentcn.vercel.app/r/registry.json",
       "github_url": "https://github.com/shadcn-labs/agentcn",
       "github_profile": "https://github.com/shadcn-labs.png"
+    },
+    {
+      "name": "Dominik UI",
+      "description": "Opinionated components and tools for building modern AI interfaces.",
+      "url": "https://dominikkoch.dev/ui",
+      "registry_url": "https://dominikkoch.dev/r/registry.json",
+      "github_url": "https://github.com/mezotv/portfolio",
+      "github_profile": "https://github.com/mezotv.png"
     }
   ]
 }
