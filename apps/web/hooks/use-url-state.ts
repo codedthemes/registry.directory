@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
-const DEFAULT_TAB = 'components';
-const VALID_TABS = ['components', 'tools'] as const;
+const DEFAULT_TAB = 'popular';
+const VALID_TABS = ['popular', 'stars', 'recently-active'] as const;
 type TabValue = (typeof VALID_TABS)[number];
 
 function isValidTab(value: string | null): value is TabValue {

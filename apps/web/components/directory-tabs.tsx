@@ -10,16 +10,61 @@ import type { DirectoryEntry, GitHubStats, RegistryStats, AffiliateConfig } from
 import type { IndexedItem } from '@/lib/items-index';
 import { searchItems } from '@/lib/search-utils';
 
+type SortMode = 'popular' | 'stars' | 'recently-active';
+
+type GitHubStatsRecord = Record<string, Omit<GitHubStats, 'fetchedAt'>>;
+
+/**
+ * Reorder registries by the active sort. The card set is identical across
+ * sorts — only the order changes — so all of this is a pure client-side
+ * reordering of data already in props (no fetch, no infra).
+ *
+ * - popular: curated order as-is (the order in directory.json)
+ * - stars: GitHub stars, descending
+ * - recently-active: last commit (pushed_at), descending
+ *
+ * Entries without GitHub data sink to the bottom; ties fall back to the
+ * curated order via a stable index tiebreak.
+ */
+function sortRegistries(
+  entries: DirectoryEntry[],
+  mode: SortMode,
+  githubStats: GitHubStatsRecord
+): DirectoryEntry[] {
+  if (mode === 'popular') return entries;
+
+  const statOf = (entry: DirectoryEntry) =>
+    entry.github_url ? githubStats[entry.github_url] : undefined;
+
+  return entries
+    .map((entry, index) => ({ entry, index }))
+    .sort((a, b) => {
+      let av: number;
+      let bv: number;
+      if (mode === 'stars') {
+        av = statOf(a.entry)?.stars ?? -1;
+        bv = statOf(b.entry)?.stars ?? -1;
+      } else {
+        const at = statOf(a.entry)?.lastCommit;
+        const bt = statOf(b.entry)?.lastCommit;
+        av = at ? Date.parse(at) : -Infinity;
+        bv = bt ? Date.parse(bt) : -Infinity;
+      }
+      if (bv !== av) return bv - av;
+      return a.index - b.index; // stable: preserve curated order among ties
+    })
+    .map(({ entry }) => entry);
+}
+
 interface DirectoryTabsProps {
   components: DirectoryEntry[];
-  tools: DirectoryEntry[];
   stats: Record<string, RegistryStats>;
-  githubStats: Record<string, Omit<GitHubStats, 'fetchedAt'>>;
+  githubStats: GitHubStatsRecord;
   items: IndexedItem[];
   affiliates: Record<string, AffiliateConfig>;
 }
 
-export function DirectoryTabs({ components, tools, stats, githubStats, items, affiliates }: DirectoryTabsProps) {
+export function DirectoryTabs({ components, stats, githubStats, items, affiliates }: DirectoryTabsProps) {
   const analytics = useAnalytics();
   const { activeTab, setActiveTab, searchTerm, setSearchTerm } = useUrlState();
   const deferredSearchTerm = useDeferredValue(searchTerm);
@@ -27,22 +72,18 @@ export function DirectoryTabs({ components, tools, stats, githubStats, items, af
   const filteredComponents = useMemo(() => {
     if (!searchTerm) return components;
     const term = searchTerm.toLowerCase();
-    return components.filter(entry => 
+    return components.filter(entry =>
       entry.name.toLowerCase().includes(term) ||
       entry.description.toLowerCase().includes(term) ||
       entry.url.toLowerCase().includes(term)
     );
   }, [components, searchTerm]);
 
-  const filteredTools = useMemo(() => {
-    if (!searchTerm) return tools;
-    const term = searchTerm.toLowerCase();
-    return tools.filter(entry => 
-      entry.name.toLowerCase().includes(term) ||
-      entry.description.toLowerCase().includes(term) ||
-      entry.url.toLowerCase().includes(term)
-    );
-  }, [tools, searchTerm]);
+  // Sort the (filtered) registries by the active tab. Search filters, sort orders.
+  const sortedComponents = useMemo(
+    () => sortRegistries(filteredComponents, activeTab as SortMode, githubStats),
+    [filteredComponents, activeTab, githubStats]
+  );
 
   const filteredItems = useMemo(() => {
     if (!deferredSearchTerm) return [];
@@ -50,16 +91,15 @@ export function DirectoryTabs({ components, tools, stats, githubStats, items, af
   }, [items, deferredSearchTerm]);
 
   // Track search performed (debounced via hook)
-  const activeRegistryResults = activeTab === 'components' ? filteredComponents : filteredTools;
   useEffect(() => {
     if (!deferredSearchTerm) return;
     analytics.trackSearchPerformed({
       search_query: deferredSearchTerm,
-      active_tab: activeTab as "components" | "tools",
-      registry_results_count: activeRegistryResults.length,
-      item_results_count: activeTab === 'components' ? filteredItems.length : 0,
+      active_tab: activeTab as SortMode,
+      registry_results_count: sortedComponents.length,
+      item_results_count: filteredItems.length,
     });
-  }, [deferredSearchTerm, activeTab, activeRegistryResults.length, filteredItems.length, analytics]);
+  }, [deferredSearchTerm, activeTab, sortedComponents.length, filteredItems.length, analytics]);
 
   const handleResultClick = useCallback((result: { result_type: SearchResultType; result_name: string; result_position: number }) => {
     if (!searchTerm) return;
@@ -69,53 +109,38 @@ export function DirectoryTabs({ components, tools, stats, githubStats, items, af
     });
   }, [searchTerm, analytics]);
 
-  const addComponentUrl = 'https://github.com/rbadillap/registry.directory';
-  const addToolUrl = 'https://github.com/rbadillap/registry.directory';
+  const addRegistryUrl = 'https://github.com/rbadillap/registry.directory';
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4">
-      <Tabs defaultValue="components" value={activeTab} onValueChange={setActiveTab}>
+      <Tabs defaultValue="popular" value={activeTab} onValueChange={setActiveTab}>
         <div className="sticky top-0 z-10 bg-background flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 mb-4 md:mb-6 py-3">
           <TabsList>
-            <TabsTrigger value="components">Registries</TabsTrigger>
-            <TabsTrigger value="tools">Tools</TabsTrigger>
+            <TabsTrigger value="popular">Popular</TabsTrigger>
+            <TabsTrigger value="stars">Stars</TabsTrigger>
+            <TabsTrigger value="recently-active">Recently active</TabsTrigger>
           </TabsList>
 
           <div className="flex-1 w-full sm:w-auto">
-            <SearchBar 
-              value={searchTerm} 
+            <SearchBar
+              value={searchTerm}
               onChange={setSearchTerm}
-              placeholder={
-                activeTab === 'components' 
-                  ? "Search registries and components..."
-                  : "Search tools..."
-              }
+              placeholder="Search registries and components..."
             />
           </div>
         </div>
 
-        <TabsContent value="components">
+        <TabsContent value={activeTab}>
           <DirectoryList
-            entries={filteredComponents}
+            entries={sortedComponents}
             searchTerm={searchTerm}
-            addCardUrl={addComponentUrl}
+            addCardUrl={addRegistryUrl}
             addCardLabel="Add your Registry"
             showViewButton={true}
             stats={stats}
             githubStats={githubStats}
             affiliates={affiliates}
-            itemResults={activeTab === 'components' ? filteredItems : []}
-            onResultClick={handleResultClick}
-          />
-        </TabsContent>
-
-        <TabsContent value="tools">
-          <DirectoryList
-            entries={filteredTools}
-            searchTerm={searchTerm}
-            addCardUrl={addToolUrl}
-            addCardLabel="Add your Tool"
-            showViewButton={false}
+            itemResults={filteredItems}
             onResultClick={handleResultClick}
           />
         </TabsContent>
