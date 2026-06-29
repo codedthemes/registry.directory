@@ -363,8 +363,8 @@
       "description": "Beautiful terminal UIs, made simple. Ready to use, customizable terminal UI components for React.",
       "url": "https://termcn.vercel.app",
       "registry_url": "https://termcn.vercel.app/r/registry.json",
-      "github_url": "https://github.com/Aniket-508/termcn",
-      "github_profile": "https://github.com/Aniket-508.png"
+      "github_url": "https://github.com/shadcn-labs/termcn",
+      "github_profile": "https://github.com/shadcn-labs.png"
     },
     {
       "name": "21st.dev Agent Elements",
@@ -380,7 +380,7 @@
       "url": "https://framecn.vercel.app",
       "registry_url": "https://framecn.vercel.app/r/registry.json",
       "github_url": "https://github.com/shadcn-labs/framecn",
-      "github_profile": "https://github.com/Aniket-508.png"
+      "github_profile": "https://github.com/shadcn-labs.png"
     },
     {
       "name": "Trophy UI",
@@ -389,6 +389,14 @@
       "registry_url": "https://ui.trophy.so/r/registry.json",
       "github_url": "https://github.com/trophyso/ui",
       "github_profile": "https://github.com/trophyso.png"
+    },
+    {
+      "name": "agentcn",
+      "description": "Production-ready agents, made simple. Ready to use, customizable AI agent recipes. Built on Eve and Flue.",
+      "url": "https://agentcn.vercel.app/",
+      "registry_url": "https://agentcn.vercel.app/r/registry.json",
+      "github_url": "https://github.com/shadcn-labs/agentcn",
+      "github_profile": "https://github.com/shadcn-labs.png"
     }
   ]
 }
