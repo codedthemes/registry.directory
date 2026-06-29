@@ -4,8 +4,9 @@ export function DirectoryTabsSkeleton() {
       {/* Tabs bar + search bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 mb-4 md:mb-6">
         <div className="inline-flex items-center gap-8">
-          <div className="h-5 w-20 bg-surface-elevated rounded-sm" />
+          <div className="h-5 w-16 bg-surface-elevated rounded-sm" />
           <div className="h-5 w-12 bg-surface-elevated rounded-sm" />
+          <div className="h-5 w-28 bg-surface-elevated rounded-sm" />
         </div>
         <div className="flex-1 w-full sm:w-auto">
           <div className="h-10 w-full bg-surface border border-border rounded-md" />

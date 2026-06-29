@@ -98,7 +98,7 @@ export interface RegistryVisitProperties {
 }
 
 export type SearchResultType = "registry" | "item";
-export type HomeTab = "components" | "tools";
+export type HomeTab = "popular" | "stars" | "recently-active";
 
 export interface SearchPerformedProperties {
   search_query: string;

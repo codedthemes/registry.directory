@@ -59,6 +59,10 @@ async function getRegistries(): Promise<DirectoryEntry[]> {
   }
 }
 
+// Tools are benched — they are no longer rendered on the home page, but the
+// curated data is preserved in public/tools.json. This loader is intentionally
+// kept so bringing Tools back is a one-line change in Home().
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function getTools(): Promise<DirectoryEntry[]> {
   try {
     const filePath = join(process.cwd(), "public/tools.json");
@@ -83,7 +87,6 @@ async function getTools(): Promise<DirectoryEntry[]> {
 
 export default async function Home() {
   const components = await getRegistries();
-  const tools = await getTools();
   const [stats, githubStats, items, affiliates] = await Promise.all([
     fetchAllRegistryStats(components),
     fetchAllGitHubStats(components),
@@ -130,7 +133,7 @@ export default async function Home() {
       </p>
 
       <Suspense fallback={<DirectoryTabsSkeleton />}>
-        <DirectoryTabs components={components} tools={tools} stats={stats} githubStats={githubStats} items={items} affiliates={affiliates} />
+        <DirectoryTabs components={components} stats={stats} githubStats={githubStats} items={items} affiliates={affiliates} />
       </Suspense>
 
       <AffiliateDisclosure />
