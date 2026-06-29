@@ -405,6 +405,14 @@
       "registry_url": "https://dominikkoch.dev/r/registry.json",
       "github_url": "https://github.com/mezotv/portfolio",
       "github_profile": "https://github.com/mezotv.png"
+    },
+    {
+      "name": "Payload Components",
+      "description": "MIT registry of typed Payload CMS blocks for Payload v3 + Next.js. Each block installs as reviewable source; the companion CLI also wires collection config, RenderBlocks, types, and the admin import map.",
+      "url": "https://www.payload-components.xyz/",
+      "registry_url": "https://www.payload-components.xyz/r/registry.json",
+      "github_url": "https://github.com/Ducksss/payload-components",
+      "github_profile": "https://github.com/Ducksss.png"
     }
   ]
 }
