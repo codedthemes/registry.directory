@@ -413,6 +413,14 @@
       "registry_url": "https://www.payload-components.xyz/r/registry.json",
       "github_url": "https://github.com/Ducksss/payload-components",
       "github_profile": "https://github.com/Ducksss.png"
+    },
+    {
+      "name": "evex",
+      "description": "Open registry for Eve agents. Discover community agents, install them with one shadcn command, and publish your own by pull request.",
+      "url": "https://evex.sh/",
+      "registry_url": "https://evex.sh/r/registry.json",
+      "github_url": "https://github.com/TommyBez/evex",
+      "github_profile": "https://github.com/TommyBez.png"
     }
   ]
 }
