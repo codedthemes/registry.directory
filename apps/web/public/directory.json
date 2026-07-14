@@ -421,6 +421,14 @@
       "registry_url": "https://evex.sh/r/registry.json",
       "github_url": "https://github.com/TommyBez/evex",
       "github_profile": "https://github.com/TommyBez.png"
+    },
+    {
+      "name": "ShadcnStore",
+      "description": "A growing collection of shadcn/ui components, blocks, and templates for building modern web apps.",
+      "url": "https://shadcnstore.com/",
+      "registry_url": "https://shadcnstore.com/r/registry.json",
+      "github_url": "https://github.com/shadcnstore/shadcn-dashboard-landing-template",
+      "github_profile": "https://github.com/shadcnstore.png"
     }
   ]
 }
