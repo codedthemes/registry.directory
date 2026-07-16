@@ -429,6 +429,14 @@
       "registry_url": "https://shadcnstore.com/r/registry.json",
       "github_url": "https://github.com/shadcnstore/shadcn-dashboard-landing-template",
       "github_profile": "https://github.com/shadcnstore.png"
+    },
+    {
+      "name": "LocalMode",
+      "description": "Local-first AI UI registry: copy-owned primitives and composed blocks (chat, RAG, transcription, CLIP search) that run entirely in the browser. No servers, no API keys.",
+      "url": "https://localmode.ai/",
+      "registry_url": "https://localmode.ai/r/registry.json",
+      "github_url": "https://github.com/LocalMode-AI/LocalMode",
+      "github_profile": "https://github.com/LocalMode-AI.png"
     }
   ]
 }
