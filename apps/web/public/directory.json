@@ -437,6 +437,14 @@
       "registry_url": "https://localmode.ai/r/registry.json",
       "github_url": "https://github.com/LocalMode-AI/LocalMode",
       "github_profile": "https://github.com/LocalMode-AI.png"
+    },
+    {
+      "name": "UIAble",
+      "description": "An open-source shadcn-based UI system designed to help developers build scalable, production-ready applications faster.",
+      "url": "https://uiable.com/",
+      "registry_url": "https://uiable.com/r/registry.json",
+      "github_url": "https://github.com/codedthemes/uiable",
+      "github_profile": "https://github.com/codedthemes.png"
     }
   ]
 }
